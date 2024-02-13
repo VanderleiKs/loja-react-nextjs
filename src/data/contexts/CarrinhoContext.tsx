@@ -7,6 +7,7 @@ import { createContext, useState } from "react"
 interface CarrinhoContextProps{
     itens: ItemCarrinho[]
     adicionarItem: (item: Item) => void
+    removerItem: (item: Item) => void
     
   }
 
@@ -23,9 +24,18 @@ export function CarrinhoProvider(props: any){
       console.log(itens)
   }
 
+  function removerItem(item: Item){
+    const itemAtual = itens.find((i) => i.item.id === item.id)
+    if(itemAtual){
+      const outrosItens = itens.filter((i) => i.item.id !== item.id)
+      setItens([...outrosItens])
+    }
+
+  }
+
   return (
     <carrinhoContext.Provider value={{
-        itens, adicionarItem
+        itens, adicionarItem, removerItem
     }}>
         {props.children}
     </carrinhoContext.Provider>
